@@ -99,30 +99,21 @@ while True:
 
                     imgStudent = cv2.imdecode(array,cv2.COLOR_BGRA2BGR)
 
-                    try:
-                        datetimeObject = datetime.strptime(studentInfo['last_attendance_time'],
+                    datetimeObject = datetime.strptime(studentInfo['last_attendance_time'],
                                                       '%Y-%m-%d %H:%M:%S')
 
-                    except TypeError:
-                        pass
+                    secondsElapsed = (datetime.now()-datetimeObject).total_seconds()
+                    print(secondsElapsed)
 
-                    try:
+                    if secondsElapsed > 60:
+                        ref = db.reference(f'Students/{id}')
+                        studentInfo['total_attendance'] +=1
+                        ref.child('total_attendance').set(studentInfo['total_attendance'])
+                        ref.child('last_attendance_time').set(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                        currentTime=datetime.now().strftime('%H:%M:%S')
 
-                        secondsElapsed = (datetime.now()-datetimeObject).total_seconds()
-                        print(secondsElapsed)
-                    except NameError:
-                        pass
-                    if secondsElapsed > 20:
-                        try:
-                            ref = db.reference(f'Students/{id}')
-                            studentInfo['total_attendance'] +=1
-                            ref.child('total_attendance').set(studentInfo['total_attendance'])
-                            ref.child('last_attendance_time').set(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-                            currentTime=datetime.now().strftime('%H:%M:%S')
+                        lnwriter.writerow([studentInfo['name'],currentTime,studentInfo['class'],studentInfo['id']])
 
-                            lnwriter.writerow([studentInfo['name'],currentTime,studentInfo['class'],studentInfo['id']])
-                        except TypeError:
-                            pass
 
 
                     else :
@@ -138,34 +129,30 @@ while True:
 
 
                     if counter<=10:
-                        try:
-                            cv2.putText(imgBackground,str(studentInfo['total_attendance']),(861,125),
-                                        cv2.FONT_HERSHEY_COMPLEX,1,(225,225,225),1)
+                        cv2.putText(imgBackground,str(studentInfo['total_attendance']),(861,125),
+                                    cv2.FONT_HERSHEY_COMPLEX,1,(225,225,225),1)
 
-                            cv2.putText(imgBackground, str(studentInfo['id']), (1006, 550),
-                                        cv2.FONT_HERSHEY_COMPLEX, 0.5, (225, 225, 225), 1)
-                            cv2.putText(imgBackground, str(studentInfo['class']), (1006, 493),
-                                        cv2.FONT_HERSHEY_COMPLEX, 0.5, (225, 225, 225), 1)
-
-                            # cv2.putText(imgBackground, str(studentInfo['standing']), (910, 625),
-                            #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
-                            # cv2.putText(imgBackground, str(studentInfo['year']), (1025, 625),
-                            #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
-                            # cv2.putText(imgBackground, str(studentInfo['starting_year']), (1125, 625),
-                            #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
+                        cv2.putText(imgBackground, str(studentInfo['id']), (1006, 550),
+                                    cv2.FONT_HERSHEY_COMPLEX, 0.5, (225, 225, 225), 1)
+                        cv2.putText(imgBackground, str(studentInfo['class']), (1006, 493),
+                                    cv2.FONT_HERSHEY_COMPLEX, 0.5, (225, 225, 225), 1)
+                        # cv2.putText(imgBackground, str(studentInfo['standing']), (910, 625),
+                        #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
+                        # cv2.putText(imgBackground, str(studentInfo['year']), (1025, 625),
+                        #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
+                        # cv2.putText(imgBackground, str(studentInfo['starting_year']), (1125, 625),
+                        #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
 
 
-                            imgBackground[175:175+216,909:909+216] = imgStudent
+                        imgBackground[175:175+216,909:909+216] = imgStudent
 
 
 
-                            (w,h),_ =cv2.getTextSize(studentInfo['name'],cv2.FONT_HERSHEY_COMPLEX,1,1)
-                            offset = (414-w)//2
+                        (w,h),_ =cv2.getTextSize(studentInfo['name'],cv2.FONT_HERSHEY_COMPLEX,1,1)
+                        offset = (414-w)//2
 
-                            cv2.putText(imgBackground, str(studentInfo['name']), (808+offset, 445),
-                                        cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
-                        except TypeError:
-                            pass
+                        cv2.putText(imgBackground, str(studentInfo['name']), (808+offset, 445),
+                                    cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
 
 
                     counter +=1
