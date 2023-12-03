@@ -12,28 +12,43 @@ firebase_admin.initialize_app(cred,{
 ref = db.reference('Students')
 
 data = {
-    '12GA146':
-            {
-                'name':"shaswath",
-                'id':'12GA146',
-                'class':'XII-Curium',
-                'standing':'-',
-                'year':'-',
-                'starting_year':2012,
-                'total_attendance':1,
+    'eshan':
+        {
+                'name': "eshan",
+                'id': '9',
+                'class': 'XII-curium',
+                'standing': '-',
+                'year': '-',
+                'starting_year': 2012,
+                'total_attendance': 1,
                 'last_attendance_time': '2000-01-01  00:00:00'
 
-            },
+        },
+    'SHASWATH':
+        {
+                'name': "shaswath",
+                'id': '006',
+                'class': 'XII-curium',
+                'standing': '-',
+                'year': '-',
+                'starting_year': 2012,
+                'total_attendance': 1,
+                'last_attendance_time': '2000-01-01  00:00:00'
+
+        },
+
+
+
     '963852':
-            {
+        {
                 'name': "elon musk",
                 'id': '001',
                 'class': 'XII-Nihonium',
-            'standing': '-',
-            'year': '-',
-            'starting_year': 2012,
-            'total_attendance': 1,
-            'last_attendance_time': '2000-01-01  00:00:00'
+                'standing': '-',
+                'year': '-',
+                'starting_year': 2012,
+                'total_attendance': 1,
+                'last_attendance_time': '2000-01-01  00:00:00'
 
         },
     '852741':
@@ -59,7 +74,8 @@ data = {
             'total_attendance': 1,
             'last_attendance_time': '2000-01-01  00:00:00'
 
-        },
+        }
+
 
 
 
